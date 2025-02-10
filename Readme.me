@@ -1,0 +1,7 @@
+# http-js
+
+这是一个JavaScript http library，是基于axios进行的封装。NodeJS模块请使用ESModule而不是CommonJS。
+
+项目入口文件是index.js。文件默认导出的是axios的实例（下文用变量"service"代替），设置baseURL为"https://api.diankeduo.net/meituan"。
+service拥有一个requst拦截器，会读取浏览器localStorage的token字段值，作为请求头中的token属性值。
+service拥有一个response拦截器，会判断返回的response.data是不是一个对象，且对象中的code属性值为200。如果是的话，返回对象中的result属性值，否则抛出错误，错误内容是这个对象中的message属性值。
