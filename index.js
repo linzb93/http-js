@@ -4,6 +4,8 @@
  */
 
 import axios from 'axios';
+import reqInterceptor from './interceptors/request';
+import resInterceptor from './interceptors/response';
 
 /**
  * HTTP服务实例
@@ -13,23 +15,7 @@ const service = axios.create({
     baseURL: 'https://api.diankeduo.net/meituan',
 });
 
-// 请求拦截器
-service.interceptors.request.use((config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-        config.headers['token'] = token;
-    }
-    return config;
-});
-
-// 响应拦截器
-service.interceptors.response.use((response) => {
-    const data = response.data;
-    if (data && data.code === 200) {
-        return data.result;
-    } else {
-        throw new Error(data.message);
-    }
-});
+service.interceptors.request.use(reqInterceptor);
+service.interceptors.response.use(resInterceptor);
 
 export default service;
