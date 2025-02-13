@@ -52,6 +52,28 @@ optionFn 函数返回 axios 的实例（下文用变量"service"代替）。
 
 默认导出 topFn，以及 topFn 函数返回的函数 optionFn，只是我为了在文档里面方便说明而命名的，你应该把它们改成匿名函数。
 
+此外，在每个单独的，使用 service 的 http 请求，有自定义属性，写在\_config 属性里面，这个\_config 属性也是自定义的，不是 axios config 自带的。自定义属性用法如下：
+
+```ts
+service.post(
+    '/v1/api',
+    {},
+    {
+        _config: {
+            // 接口请求不带token的
+            ignoreToken: true,
+        },
+    }
+);
+```
+
+自定义属性包括：
+
+-   noToast: boolean 类型，含义是当接口返回报错的时候，不会调用 Toast 函数显示提示框。默认值为 false。
+-   noLoading: boolean 类型，含义是接口发起请求的时候，不会显示 loading。默认值为 false。
+-   ignoreToken: boolean 类型，含义是接口发起请求的时候，不需要在 headers 中添加 token 字段。默认值为 false。
+-
+
 ### 拦截器
 
 service 拦截器函数放在 interceptors 目录下，index.ts 会自动加载目录下的所有文件。拦截器文件名称根据含义来命名。
